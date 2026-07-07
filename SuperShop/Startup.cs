@@ -20,12 +20,13 @@ namespace SuperShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataConext>(cfg => 
+            services.AddDbContext<DataConext>(cfg =>
             {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
-
+                
             });
 
+            services.AddTransient<SeedDb>();
             services.AddControllersWithViews();
         }
 
