@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -12,11 +11,11 @@ namespace SuperShop.Helpers
     public class BlobHelper : IBlobHelper
     {
         private readonly CloudBlobClient _blobClient;
-        public BlobHelper(IConfiguration configuration) 
-        { 
-           string keys = configuration["Blob:ConnectionString"];
-           CloudStorageAccount storageAccount = CloudStorageAccount.Parse(keys);
-           _blobClient = storageAccount.CreateCloudBlobClient();
+        public BlobHelper(IConfiguration configuration)
+        {
+            string keys = configuration["Blob:ConnectionString"];
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(keys);
+            _blobClient = storageAccount.CreateCloudBlobClient();
 
         }
 
@@ -25,7 +24,7 @@ namespace SuperShop.Helpers
             Stream stream = file.OpenReadStream();
             return await UploadStreamAsync(stream, containerName);
         }
-        
+
         public async Task<Guid> UploadBlobAsync(byte[] file, string containerName)
         {
             MemoryStream stream = new MemoryStream(file);

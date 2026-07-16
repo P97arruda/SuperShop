@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
 using SuperShop.Helpers;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SuperShop.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
 
@@ -51,6 +53,7 @@ namespace SuperShop.Controllers
         }
 
         // GET: Products/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -85,23 +88,10 @@ namespace SuperShop.Controllers
             return View(model);
         }
 
-        //private Product ToProduct(ProductViewModel model, string path)
-        //{
-        //    return new Product
-        //    {
-        //        Id = model.Id,
-        //        ImageUrl = path,
-        //        Isvailable = model.Isvailable,
-        //        LastPurchase = model.LastPurchase,
-        //        LastSale = model.LastSale,
-        //        Name = model.Name,
-        //        Price = model.Price,
-        //        Stock = model.Stock,
-        //        User = model.User,
-        //    };
-        //}
+
 
         // GET: Products/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -119,22 +109,6 @@ namespace SuperShop.Controllers
             var model = _convertHelper.ToProductViewModel(product);
             return View(model);
         }
-
-        //private ProductViewModel ToProductViemModel(Product product)
-        //{
-        //    return new ProductViewModel
-        //    {
-        //        Id = product.Id,
-        //        Isvailable = product.Isvailable,
-        //        LastPurchase = product.LastPurchase,
-        //        LastSale = product.LastSale,
-        //        ImageUrl = product.ImageUrl,
-        //        Name = product.Name,
-        //        Price = product.Price,
-        //        Stock = product.Stock,
-        //        User = product.User,    
-        //    };
-        //}
 
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -205,5 +179,6 @@ namespace SuperShop.Controllers
             await _productRepository.DeleteAsync(product);
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
