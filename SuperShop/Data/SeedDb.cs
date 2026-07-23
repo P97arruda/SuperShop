@@ -37,7 +37,7 @@ namespace SuperShop.Data
                     PhoneNumber = "1234567890",
                 };
 
-                var result = await _userHelper.AddUserAsync(user, "Abc123");
+                var result = await _userHelper.AddUserAsync(user, "Abc123!");
 
                 if (result != IdentityResult.Success) 
                 {
