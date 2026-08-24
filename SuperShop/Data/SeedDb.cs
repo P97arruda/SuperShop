@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SuperShop.Data.Entities;
 using SuperShop.Helpers;
 using System;
@@ -23,7 +24,7 @@ namespace SuperShop.Data
 
         public async Task SeedAsync()
         {
-            await _conext.Database.EnsureCreatedAsync();
+            await _conext.Database.MigrateAsync();
 
             await _userHelper.ChecRoleAsync("Admin");
             await _userHelper.ChecRoleAsync("Costumer");

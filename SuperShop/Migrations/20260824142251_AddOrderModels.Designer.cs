@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SuperShop.Data;
 
 namespace SuperShop.Migrations
 {
     [DbContext(typeof(DataConext))]
-    partial class DataConextModelSnapshot : ModelSnapshot
+    [Migration("20260824142251_AddOrderModels")]
+    partial class AddOrderModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,17 +188,17 @@ namespace SuperShop.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Quantity")
                         .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("OerderDetails");
                 });
@@ -406,11 +408,11 @@ namespace SuperShop.Migrations
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("SuperShop.Data.Entities.Product", "Product")
+                    b.HasOne("SuperShop.Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("Product");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SuperShop.Data.Entities.OrderDetailTemp", b =>
