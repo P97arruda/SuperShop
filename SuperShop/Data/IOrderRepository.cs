@@ -14,5 +14,7 @@ namespace SuperShop.Data
         Task AddItemToOrderAsync(AddItemViewModel model, string userName);
 
         Task ModifyOrderDetailTempoQuantityAsync(int id, double  quantity);
+
+        Task DeleteItemAsync(int id);
     }
 }
