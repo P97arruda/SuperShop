@@ -26,10 +26,9 @@ namespace SuperShop.Data.Entities
 
 
         [DisplayFormat(DataFormatString = "{0:N0}")]
-
         public int Lines => Items == null ? 0 : Items.Count();
 
-
+        
         [DisplayFormat(DataFormatString = "{0:N2}")]
         public double Quantity => Items == null ? 0 : Items.Sum(i => i.Quantity);
 
@@ -41,6 +40,5 @@ namespace SuperShop.Data.Entities
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = false)]
         [Display(Name = "Order date")]
         public DateTime? OrderDateLocal => this.OrderDate == null ? null : this.OrderDate.ToLocalTime();
-
     }
 }
