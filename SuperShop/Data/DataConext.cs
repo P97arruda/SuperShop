@@ -15,6 +15,10 @@ namespace SuperShop.Data
 
         public DbSet<OrderDetailTemp> OerderDetailsTemp { get; set; }
 
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
         public DataConext(DbContextOptions<DataConext> options) : base(options)
         {
 
