@@ -48,9 +48,60 @@ namespace SuperShop.Data
             return await _conext.Cities.FindAsync(id);
         }
 
+
+        public IEnumerable<SelectListItem> GetComboCities(int countryId)
+        {
+            var country = _conext.Countries.Find(countryId);
+            var list = new List<SelectListItem>();
+
+            if (country != null)
+            {
+                list = _conext.Cities.Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+
+                }).OrderBy(l => l.Text).ToList();
+
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "(Select a city...)",
+                    Value = "0"
+                });
+
+            }
+
+            return list;
+        }
+
+
+        public IEnumerable<SelectListItem> GetComboCountries()
+        {
+            var list = _conext.Countries.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+
+            }).OrderBy(l => l.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a country...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
+
         public IQueryable GetCountriesWithCities()
         {
             return _conext.Countries.Include(c => c.Cities).OrderBy(c => c.Name);
+        }
+
+        public async Task<Country> GetCountryAsync(City city)
+        {
+            return await _conext.Countries.Where(C => C.Cities.Any(ci => ci.Id == city.Id)).FirstOrDefaultAsync();
         }
 
         public async Task<Country> GetCountryWithCitiesAsync(int id)

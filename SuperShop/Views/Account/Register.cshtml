@@ -3,8 +3,6 @@
     ViewData["Title"] = "Register";
 }
 
-
-
 <h2>Register</h2>
 
 <div class="row">
@@ -28,7 +26,30 @@
                 <input asp-for="Username" class="form-control" />
                 <span asp-validation-for="Username" class="text-warning"></span>
             </div>
-            
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" asp-items="Model.Countries" class="form-control"></select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" asp-items="Model.Cities" class="form-control"></select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address">Address</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-warning"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="PassWord">Password</label>
                 <input asp-for="PassWord" class="form-control" type="password" />
@@ -41,11 +62,12 @@
                 <span asp-validation-for="Confirm" class="text-warning"></span>
             </div>
             <div class="form-group">
-                <input type="submit" vaue="Register New user"class="btn btn-primary"/>
+                <input type="submit" vaue="Register New user" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+
 <div class="text-success">
     <p>
         @ViewBag.Message
@@ -54,4 +76,33 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#CountryId").change(function () {
+                $("#CityId").empty();
+                $.ajax({
+                    url: '@Url.Action("GetCitiesAsync", "Account")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { countryId: $("#CountryId").val() },
+                    success: function (cities) {
+                        debugger;
+                        $("#CityId").append('<option value="0">(Select a city...)</option>');
+                        $.each(cities, function (i, city) {
+                            $("#CityId").append('<option value="' + city.id + '">' + city.name + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        debugger;
+                        alert('Failed to retrieve cities: ' + ex);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
 }
+
+
