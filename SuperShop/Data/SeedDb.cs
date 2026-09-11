@@ -28,7 +28,7 @@ namespace SuperShop.Data
             await _conext.Database.MigrateAsync();
 
             await _userHelper.ChecRoleAsync("Admin");
-            await _userHelper.ChecRoleAsync("Costumer");
+            await _userHelper.ChecRoleAsync("Customer");
 
             if (!_conext.Countries.Any())
             {
@@ -50,6 +50,7 @@ namespace SuperShop.Data
 
 
             var user = await _userHelper.GetUserByEmailAsync("rafaasfs@gmail.com");
+
             if(user == null) 
             {
                 user = new User
@@ -76,6 +77,10 @@ namespace SuperShop.Data
                 }
 
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
+
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+
+                await _userHelper.ConfirmEmailAsync(user, token);
 
             }
 

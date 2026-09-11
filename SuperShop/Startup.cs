@@ -27,6 +27,8 @@ namespace SuperShop
         {
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
+                cfg.Tokens.ChangePhoneNumberTokenProvider = TokenOptions.DefaultPhoneProvider;
+                cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
@@ -34,9 +36,10 @@ namespace SuperShop
                 cfg.Password.RequireUppercase = false;
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequiredLength = 6;
-                
 
-            } )
+
+            })
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataConext>();
 
             services.AddAuthentication()
@@ -63,6 +66,7 @@ namespace SuperShop
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IBlobHelper, BlobHelper>();
             services.AddScoped<IConverterHelper, ConvertHelper>();
+            services.AddScoped<IMailHelper, MailHelper>();
 
 
             services.AddScoped<IProductRepository, ProductRepository>();
